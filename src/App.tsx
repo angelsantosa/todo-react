@@ -1,11 +1,21 @@
-import './App.css';
+import '@mantine/core/styles.css';
+import { IndexRoute } from './routes';
+import { AppShell, createTheme, MantineProvider, Title } from '@mantine/core';
+
+const theme = createTheme({});
 
 const App = () => {
   return (
-    <div className="content">
-      <h1>Rsbuild with React</h1>
-      <p>Start building amazing things with Rsbuild.</p>
-    </div>
+    <MantineProvider theme={theme}>
+      <AppShell header={{ height: 60 }} padding="lg">
+        <AppShell.Header style={{ padding: 10 }}>
+          <Title order={3}>Welcome To The Every.io Code Challenge.</Title>
+        </AppShell.Header>
+        <AppShell.Main>
+          <IndexRoute />
+        </AppShell.Main>
+      </AppShell>
+    </MantineProvider>
   );
 };
 
