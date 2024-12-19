@@ -25,10 +25,11 @@ export function IndexRoute() {
             component={Grid.Col}
             shadow="xs"
             span={3}
-            mih={'600'}
+            h={'600'}
             style={{
               display: 'flex',
               flexDirection: 'column',
+              overflowY: 'auto',
             }}
           >
             <Box>
