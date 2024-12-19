@@ -1,20 +1,8 @@
 import React from 'react';
-import {
-  ActionIcon,
-  Box,
-  Card,
-  Divider,
-  Flex,
-  Grid,
-  Group,
-  Paper,
-  Text,
-  Title,
-  type MantineStyleProp,
-} from '@mantine/core';
-import { ArrowLeftFromLine, ArrowRightFromLine, Trash } from 'lucide-react';
+import { Box, Divider, Flex, Grid, Paper, Title } from '@mantine/core';
 import type { Todo } from '../entities/todo.validators';
 import { STATUS_VERBOSE, STATUSES_COLUMNS } from '../consts';
+import TodoItem from '../components/TodoItem';
 
 export function IndexRoute() {
   const [todos, setTodos] = React.useState<Todo[]>([
@@ -40,11 +28,6 @@ export function IndexRoute() {
     },
   ]);
 
-  const columnStyle: MantineStyleProp = {
-    display: 'flex',
-    flexDirection: 'column',
-  };
-
   return (
     <Grid gutter="sm" justify="space-around" align="flex-start">
       {STATUSES_COLUMNS.map((status) => (
@@ -54,7 +37,10 @@ export function IndexRoute() {
           shadow="xs"
           span={3}
           mih={'600'}
-          style={columnStyle}
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+          }}
         >
           <Box>
             <Title
@@ -72,23 +58,7 @@ export function IndexRoute() {
             {todos
               .filter((todo) => todo.status === status)
               .map((todo) => (
-                <Card key={todo.id} shadow="xs" padding="xs" withBorder>
-                  <Text size="sm" fw={500}>
-                    {todo.content}
-                  </Text>
-                  <Divider my={'sm'} />
-                  <Group justify="space-between">
-                    <ActionIcon variant="filled" size="sm" color="blue">
-                      <ArrowLeftFromLine size={14} />
-                    </ActionIcon>
-                    <ActionIcon variant="filled" size="sm" color="red">
-                      <Trash size={14} />
-                    </ActionIcon>
-                    <ActionIcon variant="filled" size="sm" color="green">
-                      <ArrowRightFromLine size={14} />
-                    </ActionIcon>
-                  </Group>
-                </Card>
+                <TodoItem key={todo.id} todo={todo} />
               ))}
           </Flex>
         </Paper>
