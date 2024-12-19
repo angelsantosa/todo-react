@@ -5,7 +5,10 @@ export const getTodos = () => {
   return todoValidator.array().parse(todos);
 };
 
-export const updateTodoStatus = (id: number, status: TodoStatus) => {
+export const updateTodoStatus = ({
+  id,
+  status,
+}: { id: number; status: TodoStatus }) => {
   const todos = getTodos();
   const updatedTodo = todos.find((todo) => todo.id === id);
   if (!updatedTodo) {
