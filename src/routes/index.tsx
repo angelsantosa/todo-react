@@ -54,7 +54,11 @@ export function IndexRoute() {
           </Paper>
         ))}
       </Grid>
-      <TodoForm />
+      <Grid justify="space-around">
+        <Grid.Col span={11} pl={0}>
+          <TodoForm />
+        </Grid.Col>
+      </Grid>
     </Flex>
   );
 }
