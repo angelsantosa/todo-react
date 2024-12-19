@@ -1,32 +1,19 @@
-import React from 'react';
 import { Box, Divider, Flex, Grid, Paper, Title } from '@mantine/core';
-import type { Todo } from '../entities/todo.validators';
 import { STATUS_VERBOSE, STATUSES_COLUMNS } from '../consts';
 import TodoItem from '../components/TodoItem';
+import { useQuery } from '@tanstack/react-query';
+import { todoListQueryOptions } from '../entities/todo.queryOptions';
 
 export function IndexRoute() {
-  const [todos, setTodos] = React.useState<Todo[]>([
-    {
-      id: 1,
-      content: 'Buy milk',
-      status: 'todo',
-    },
-    {
-      id: 2,
-      content: 'Buy bread',
-      status: 'todo',
-    },
-    {
-      id: 3,
-      content: 'Buy eggs',
-      status: 'inprogress',
-    },
-    {
-      id: 4,
-      content: 'Buy cheese',
-      status: 'done',
-    },
-  ]);
+  const todosList = useQuery(todoListQueryOptions());
+
+  if (todosList.isFetching) {
+    return <div>Loading...</div>;
+  }
+
+  if (!todosList.isSuccess) {
+    return <div>Error</div>;
+  }
 
   return (
     <Grid gutter="sm" justify="space-around" align="flex-start">
@@ -55,7 +42,7 @@ export function IndexRoute() {
 
           <Divider my={'sm'} />
           <Flex style={{ width: '100%' }} direction={'column'} gap={'sm'}>
-            {todos
+            {todosList.data
               .filter((todo) => todo.status === status)
               .map((todo) => (
                 <TodoItem key={todo.id} todo={todo} />
