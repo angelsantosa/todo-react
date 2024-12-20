@@ -17,14 +17,18 @@ const TodoItem: React.FC<{ todo: Todo }> = ({ todo }) => {
   const deleteTodoMutation = useMutation({
     mutationFn: deleteTodo,
     onSuccess: () => {
-      queryClient.invalidateQueries(todoListQueryOptions());
+      document.startViewTransition(() => {
+        queryClient.invalidateQueries(todoListQueryOptions());
+      });
     },
   });
 
   const updateTodoStatusMutation = useMutation({
     mutationFn: updateTodoStatus,
     onSuccess: () => {
-      queryClient.invalidateQueries(todoListQueryOptions());
+      document.startViewTransition(() => {
+        queryClient.invalidateQueries(todoListQueryOptions());
+      });
     },
   });
 
@@ -52,7 +56,15 @@ const TodoItem: React.FC<{ todo: Todo }> = ({ todo }) => {
     deleteTodoMutation.isPending || updateTodoStatusMutation.isPending;
 
   return (
-    <Card key={todo.id} shadow="xs" padding="xs" withBorder>
+    <Card
+      key={todo.id}
+      style={{
+        '--view-transition-name': `todo-item-${todo.id}`,
+      }}
+      shadow="xs"
+      padding="xs"
+      withBorder
+    >
       <Text size="sm" fw={500}>
         {todo.content}
       </Text>

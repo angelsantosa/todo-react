@@ -14,7 +14,9 @@ const TodoForm = () => {
     mutationFn: createTodo,
     onSuccess: () => {
       setTodoContent('');
-      queryClient.invalidateQueries(todoListQueryOptions());
+      document.startViewTransition(() => {
+        queryClient.invalidateQueries(todoListQueryOptions());
+      });
     },
   });
 
